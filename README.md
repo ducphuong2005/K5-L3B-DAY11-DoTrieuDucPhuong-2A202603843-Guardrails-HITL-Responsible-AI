@@ -6,6 +6,43 @@
 
 ---
 
+## Thông tin học viên & Hướng dẫn chạy nhanh 
+
+| Trường thông tin | Chi tiết |
+|---|---|
+| **Họ và tên** | Đỗ Triệu Đức Phương (`DoTrieuDucPhuong`) |
+| **MSSV** | `2A202603843` |
+| **Khóa / Lớp** | `K5-L3B` |
+| **Tên Repo nộp** | `K5-L3B-DAY11-DoTrieuDucPhuong-2A202603843-Guardrails-HITL-Responsible-AI` |
+| **Cấu hình Blue Team (CP2–CP3)** | OpenRouter — `liquid/lfm-3-1.7b:free` (cố định) |
+| **Cấu hình Red Team (CP4)** | `RED_TEAM_PROVIDER=openai` · Model: `gpt-4o-mini` |
+| **Lựa chọn Bonus** | **B1** (Tấn công **Red** / `create_red_agent_default` — đạt `5/5` leak trong `outputs/attack_results.json`) |
+
+### Cách chạy ngắn (từ thư mục gốc repo)
+
+```bash
+# 1. Kích hoạt môi trường ảo
+source .venv/bin/activate
+
+# 2. Kiểm tra môi trường & smoke tests (CP1)
+.venv/bin/python -m pytest tests/smoke -q
+
+# 3. Chạy kiểm tra Input/Output Guardrails (CP2)
+.venv/bin/python src/main.py --part 2
+
+# 4. Chạy pipeline phòng thủ Blue & sinh outputs/results.json, audit_log.json, metrics.json (CP3)
+.venv/bin/python src/main.py --part 3
+
+# 5. Chạy tấn công Red + Red Advance & sinh outputs/attack_results.json (CP4)
+.venv/bin/python src/main.py --part 4
+
+# 6. Chạy public tests & tự chấm sinh outputs/grade_report.json + outputs/lab_report.md (CP5)
+.venv/bin/python -m pytest tests/public -q
+.venv/bin/python scripts/grade.py --submission-dir . --out outputs/grade_report.json
+```
+
+---
+
 ## Thời lượng
 
 | Phần | Thời gian |
